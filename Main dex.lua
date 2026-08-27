@@ -13,20 +13,25 @@ local function missing(t, f, fallback)
 	return fallback
 end
 
-local waxcloneref = cloneref
-local cloneref = if not waxcloneref then function(...) return ... end else setmetatable({}, {__mode = 'v', __call = function(self, obj)
-    if not obj then
-        return
-    end
-    local id = obj:GetDebugId()
-    local a = self[id]
-    if a then
-        return a
-    end
-    a = waxcloneref(obj)
-    self[id] = a
-    return a
-end})
+-- FIX: Safe cloneref implementation for executors that don't have it
+local cloneref
+if type(rawget(_G, "cloneref")) == "function" then
+    local waxcloneref = cloneref
+    cloneref = setmetatable({}, {
+        __mode = 'v',
+        __call = function(self, obj)
+            if not obj then return end
+            local id = obj:GetDebugId()
+            local a = self[id]
+            if a then return a end
+            a = waxcloneref(obj)
+            self[id] = a
+            return a
+        end
+    })
+else
+    cloneref = function(obj) return obj end
+end
 
 local service = setmetatable({}, {
 	__index = function(self, name)
@@ -37,6 +42,7 @@ local service = setmetatable({}, {
 
 local oldgame = game
 local game = cloneref(workspace.Parent)
+-- The rest of your script continues here unchanged...
 
 local EmbeddedModules = {
 	Explorer = function()
