@@ -5,32 +5,15 @@
 	A recontinuation of the old DEX Explorer with many features from the original roadmap
 ]]
 
+-- FIX: Make script compatible with executors that don't have cloneref
+local cloneref = cloneref or function(x) return x end
+
 local nodes = {}
 local selection
 
 local function missing(t, f, fallback)
 	if type(f) == t then return f end
 	return fallback
-end
-
--- FIX: Safe cloneref implementation for executors that don't have it
-local cloneref
-if type(rawget(_G, "cloneref")) == "function" then
-    local waxcloneref = cloneref
-    cloneref = setmetatable({}, {
-        __mode = 'v',
-        __call = function(self, obj)
-            if not obj then return end
-            local id = obj:GetDebugId()
-            local a = self[id]
-            if a then return a end
-            a = waxcloneref(obj)
-            self[id] = a
-            return a
-        end
-    })
-else
-    cloneref = function(obj) return obj end
 end
 
 local service = setmetatable({}, {
@@ -42,7 +25,6 @@ local service = setmetatable({}, {
 
 local oldgame = game
 local game = cloneref(workspace.Parent)
--- The rest of your script continues here unchanged...
 
 local EmbeddedModules = {
 	Explorer = function()
@@ -8029,7 +8011,7 @@ end
 						Ind, LineStr, Ind, NameStr, Ind, ArityStr, Ind, SrcStr, Ind, VargsStr, Ind, HashStr, Ind)
 				end
 
-				local InfoStr = "-- Generated with DEX Recontinued by Tesker103\n-- https://github.com/Tesker-103/DexRecontinued\n\n"
+				local InfoStr = "-- Generated with DEXN\n-- https://github.com/Tesker-103/DexRecontinued\n\n"
 				local S_Name, NameInfo = pcall(debug.info, Func, "n")
 				local S_Src, SourceInfo = pcall(debug.info, Func, "s")
 				local S_Line, LineInfo = pcall(debug.info, Func, "l")
