@@ -5,8 +5,18 @@
 	A recontinuation of the old DEX Explorer with many features from the original roadmap
 ]]
 
--- FIX: Make script compatible with executors that don't have cloneref
-local cloneref = cloneref or function(x) return x end
+-- ======================================================================
+-- DELTA FIX: cloneref fallback for executors that don't support it
+-- ======================================================================
+local function safe_cloneref(obj)
+    if cloneref then
+        return cloneref(obj)
+    end
+    return obj
+end
+
+-- Override cloneref globally
+cloneref = safe_cloneref
 
 local nodes = {}
 local selection
