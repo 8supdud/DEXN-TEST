@@ -1,6 +1,6 @@
 --[[
-	DEXN v1.2.1
-	Developed by NuclearBobo
+	Dex REContinued v1.2.1
+	Developed by Tesker103
 	
 	A recontinuation of the old DEX Explorer with many features from the original roadmap
 ]]
@@ -1850,7 +1850,7 @@ end)
 			for _, v in next, selection.List do
 				if v.Obj:IsA("LuaSourceContainer") and env.isViableDecompileScript(v.Obj) then
 					local success, source = pcall(env.decompile, v.Obj)
-					if not success or not source then source = ("-- DEXN - %s failed to decompile %s"):format(env.executor, v.Obj.ClassName) end
+					if not success or not source then source = ("-- DEX - %s failed to decompile %s"):format(env.executor, v.Obj.ClassName) end
 					local fileName = ("%s_%s_%i_Source.txt"):format(env.parsefile(v.Obj.Name), v.Obj.ClassName, game.PlaceId)
 					Lib.SaveAsPrompt(fileName, source)
 					task.wait(0.2)
@@ -5830,7 +5830,7 @@ ScriptViewer.EditedScriptsCache = setmetatable({}, {__mode = "k"})
 
 		ExecuteBtn.MouseButton1Click:Connect(function()
 			local Source = codeFrame:GetText()
-			if env.loadstring then env.loadstring(Source, "DEXN")() end
+			if env.loadstring then env.loadstring(Source, "DEX")() end
 		end)
 
 		local ClearBtn = Instance.new("TextButton",window.GuiElems.Content)
@@ -5872,9 +5872,9 @@ ScriptViewer.EditedScriptsCache = setmetatable({}, {__mode = "k"})
 			local ErrColor = "rgb(0, 255, 0)"
 
 			if LoadStringFunc then
-				local Func, Err = LoadStringFunc(Source, "DEXN")
+				local Func, Err = LoadStringFunc(Source, "DEX")
 				if not Func then
-					ErrText = tostring(Err):gsub('%[string "DEXN"%]:', "Line ")
+					ErrText = tostring(Err):gsub('%[string "DEX"%]:', "Line ")
 					ErrColor = "rgb(255, 80, 80)"
 				end
 			else
@@ -5923,7 +5923,7 @@ ScriptViewer.EditedScriptsCache = setmetatable({}, {__mode = "k"})
 				
 				local LoadStringFunc = env.loadstring or loadstring
 				if LoadStringFunc then
-					local LoadedFunc, Err = LoadStringFunc(Source, "DEXN")
+					local LoadedFunc, Err = LoadStringFunc(Source, "DEX")
 					if LoadedFunc then
 						local ExecEnv = setmetatable({
 							script = RefNewScript
@@ -10234,7 +10234,7 @@ end
 					elems.SearchFrame.Visible = self.SearchEnabled
 					elems.List.Position = UDim2.new(0,2,0,2 + (self.SearchEnabled and 24 or 0))
 					elems.List.Size = UDim2.new(1,-4,1,-4 - (self.SearchEnabled and 24 or 0))
-					if self.SearchEnabled and self.ClearSearchOnShow then elems.SearchBar.Text = ""
+					if self.SearchEnabled and self.ClearSearchOnShow then elems.SearchBar.Text = "" end
 					self.GuiElems.List.CanvasPosition = Vector2.new(0,0)
 
 					if not self.Updated then
@@ -10267,7 +10267,7 @@ end
 
 					-- Close event
 					local closable
-					if self.CloseEvent then self.CloseEvent:Disconnect()
+					if self.CloseEvent then self.CloseEvent:Disconnect() end
 					self.CloseEvent = service.UserInputService.InputBegan:Connect(function(input)
 						if not closable then return end
 
@@ -10291,7 +10291,7 @@ end
 
 					-- Close debounce
 					Lib.FastWait()
-					if self.SearchEnabled and self.FocusSearchOnShow then elems.SearchBar:CaptureFocus()
+					if self.SearchEnabled and self.FocusSearchOnShow then elems.SearchBar:CaptureFocus() end
 					closable = true
 				end
 
@@ -10313,7 +10313,7 @@ end
 
 				local mt = {__index = funcs}
 				local function new()
-					if not mouse then mouse = Main.Mouse or service.Players.LocalPlayer:GetMouse()
+					if not mouse then mouse = Main.Mouse or service.Players.LocalPlayer:GetMouse() end
 
 					local obj = setmetatable({
 						Width = 200,
@@ -10730,7 +10730,7 @@ end
 		end
 
 		funcs.GetSelectionText = function(self)
-			if not self:IsValidRange() then return ""
+			if not self:IsValidRange() then return "" end
 
 			local selectionRange = self.SelectionRange
 			local selX,selY = selectionRange[1][1], selectionRange[1][2]
@@ -10738,7 +10738,7 @@ end
 			local deltaLines = sel2Y-selY
 			local lines = self.Lines
 
-			if not lines[selY+1] or not lines[sel2Y+1] then return ""
+			if not lines[selY+1] or not lines[sel2Y+1] then return "" end
 
 			if deltaLines == 0 then
 				return self:ConvertText(lines[selY+1]:sub(selX+1,sel2X), false)
@@ -10902,7 +10902,7 @@ end
 
 		funcs.ResetSelection = function(self,norefresh)
 			self.SelectionRange = {{-1,-1},{-1,-1}}
-			if not norefresh then self:Refresh()
+			if not norefresh then self:Refresh() end
 		end
 
 		funcs.IsValidRange = function(self,range)
@@ -10935,7 +10935,7 @@ end
 				remove(lines,selY+2)
 			end
 
-			if range == self.SelectionRange then self.SelectionRange = {{-1,-1},{-1,-1}}
+			if range == self.SelectionRange then self.SelectionRange = {{-1,-1},{-1,-1}} end
 			if updatemouse then
 				self.CursorX = selX
 				self.CursorY = selY
@@ -10962,7 +10962,7 @@ end
 
 			for i = 1,#textLines do
 				local linePos = cursorY+i
-				if i > 1 then insert(lines,linePos,"")
+				if i > 1 then insert(lines,linePos,"") end
 
 				local textLine = textLines[i]
 				local newBefore = (i == 1 and before or "")
@@ -10971,7 +10971,7 @@ end
 				lines[linePos] = newBefore..textLine..newAfter
 			end
 
-			if #textLines > 1 then cursorX = 0
+			if #textLines > 1 then cursorX = 0 end
 
 			self:ProcessTextChange()
 			self.CursorX = cursorX + #textLines[#textLines]
@@ -11079,7 +11079,7 @@ end
 
 			local line = self.Lines[cursorY+1] or ""
 			if cursorX > #line then cursorX = #line
-			elseif cursorX < 0 then cursorX = 0
+			elseif cursorX < 0 then cursorX = 0 end
 
 			if cursorY >= #self.Lines then
 				cursorY = math.max(0,#self.Lines-1)
@@ -11220,7 +11220,7 @@ end
 				end
 
 				lastEnding = ending
-				--if i < 200 then print(curLine)
+				--if i < 200 then print(curLine) end
 			end
 			self.PreHighlights = foundHighlights
 			--print(tick()-start)
@@ -11296,7 +11296,7 @@ end
 
 						lastWord = word
 						wordBeginsDotted = false
-						if funcStatus > 0 then funcStatus = 1
+						if funcStatus > 0 then funcStatus = 1 end
 
 						if wordType then
 							currentType = wordType
@@ -11614,7 +11614,7 @@ end
 		local mt = {__index = funcs}
 
 		local function new()
-			if not builtInInited then initBuiltIn()
+			if not builtInInited then initBuiltIn() end
 
 			local scrollV = Lib.ScrollBar.new()
 			local scrollH = Lib.ScrollBar.new(true)
@@ -11863,7 +11863,7 @@ end
 		funcs.SetState = function(self,val,anim)
 			self.Toggled = val
 
-			if self.OutlineColorTween then self.OutlineColorTween:Cancel()
+			if self.OutlineColorTween then self.OutlineColorTween:Cancel() end
 			local setStateTime = tick()
 			self.LastSetStateTime = setStateTime
 
@@ -12067,11 +12067,11 @@ end
 					Lib.ShowGui(self.Gui)
 					local sizeX,sizeY = self.Gui.Frame.AbsoluteSize.X,self.Gui.Frame.AbsoluteSize.Y
 
-					if x + sizeX > maxX then x = self.ReverseX and x - sizeX or maxX - sizeX
-					if y + sizeY > maxY then reverseY = true
+					if x + sizeX > maxX then x = self.ReverseX and x - sizeX or maxX - sizeX end
+					if y + sizeY > maxY then reverseY = true end
 
 					local closable = false
-					if self.CloseEvent then self.CloseEvent:Disconnect()
+					if self.CloseEvent then self.CloseEvent:Disconnect() end
 
 					self.CloseEvent = service.UserInputService.InputBegan:Connect(function(input)
 						if not closable or (input.UserInputType ~= Enum.UserInputType.MouseButton1 and input.UserInputType ~= Enum.UserInputType.Touch) then
@@ -12315,8 +12315,8 @@ end
 				local relativeX = mouse.X - colorSpace.AbsolutePosition.X
 				local relativeY = mouse.Y - colorSpace.AbsolutePosition.Y
 
-				if relativeX < 0 then relativeX = 0 elseif relativeX > 219 then relativeX = 219
-				if relativeY < 0 then relativeY = 0 elseif relativeY > 199 then relativeY = 199
+				if relativeX < 0 then relativeX = 0 elseif relativeX > 219 then relativeX = 219 end
+				if relativeY < 0 then relativeY = 0 elseif relativeY > 199 then relativeY = 199 end
 
 				hue = (219 - relativeX) / 219
 				sat = (199 - relativeY) / 199
@@ -12329,7 +12329,7 @@ end
 			local function colorStripInput()
 				local relativeY = mouse.Y - colorStrip.AbsolutePosition.Y
 
-				if relativeY < 0 then relativeY = 0 elseif relativeY > 199 then relativeY = 199	
+				if relativeY < 0 then relativeY = 0 elseif relativeY > 199 then relativeY = 199 end	
 
 				val = (199 - relativeY) / 199
 
@@ -12509,7 +12509,7 @@ end
 
 				newColor.Parent = basicColorsFrame
 				column = column + 1
-				if column == 6 then row = row + 1 column = 0
+				if column == 6 then row = row + 1 column = 0 end
 			end
 
 			row = 0
@@ -12534,7 +12534,7 @@ end
 
 				newColor.Parent = customColorsFrame
 				column = column + 1
-				if column == 6 then row = row + 1 column = 0
+				if column == 6 then row = row + 1 column = 0 end
 			end
 
 			okButton.MouseButton1Click:Connect(function() newMt.OnSelect:Fire(chosenColor) window:Close() end)
@@ -12832,13 +12832,13 @@ end
 									if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
 										local maxX = numberLine.AbsoluteSize.X - 1
 										local relativeX = (input.Position.X - numberLine.AbsolutePosition.X)
-										if relativeX < 0 then relativeX = 0
-										if relativeX > maxX then relativeX = maxX
+										if relativeX < 0 then relativeX = 0 end
+										if relativeX > maxX then relativeX = maxX end
 
 										local maxY = numberLine.AbsoluteSize.Y - 1
 										local relativeY = (input.Position.Y - numberLine.AbsolutePosition.Y)
-										if relativeY < 0 then relativeY = 0
-										if relativeY > maxY then relativeY = maxY
+										if relativeY < 0 then relativeY = 0 end
+										if relativeY > maxY then relativeY = maxY end
 
 										if point ~= beginPoint and point ~= endPoint then
 											point[2] = relativeX / maxX
@@ -12896,7 +12896,7 @@ end
 								local riseNow = math.floor(currentRise)
 								local line = lines[lineCount+3]
 								if line then
-									if totalRise+riseNow > maxRise then riseNow = maxRise-totalRise
+									if totalRise+riseNow > maxRise then riseNow = maxRise-totalRise end
 									if math.sign(slope) == -1 then
 										line.Position = UDim2.new(0,lineCount+2,0,fromPoint[4].Position.Y.Offset + -(totalRise+riseNow)+2)
 									else
@@ -12909,7 +12909,9 @@ end
 
 								local envPercent = (lineCount-fromPoint[4].Position.X.Offset)/(toPoint[4].Position.X.Offset-fromPoint[4].Position.X.Offset)
 								local envLerp = fromEnvelope+(nextEnvelope-fromEnvelope)*envPercent
-								local relativeSize = (envLerp/10)*numberLineSize.Y														local line = eLines[lineCount + 3]
+								local relativeSize = (envLerp/10)*numberLineSize.Y						
+
+								local line = eLines[lineCount + 3]
 								if line then
 									line.Position = UDim2.new(0,lineCount+2,0,lines[lineCount+3].Position.Y.Offset-math.floor(relativeSize))
 									line.Size = UDim2.new(0,1,0,math.floor(relativeSize*2))
@@ -12923,7 +12925,7 @@ end
 
 					local function loadSequence(self,seq)
 						resetSequence = seq
-						for i,v in pairs(points) do if v[4] then v[4]:Destroy() end
+						for i,v in pairs(points) do if v[4] then v[4]:Destroy() end end
 						points = {}
 						for i,v in pairs(seq.Keypoints) do
 							local maxEnvelope = math.min(v.Value,10-v.Value)
@@ -12998,13 +13000,13 @@ end
 
 							local maxX = numberLine.AbsoluteSize.X - 1
 							local relativeX = (input.Position.X - numberLine.AbsolutePosition.X)
-							if relativeX < 0 then relativeX = 0
-							if relativeX > maxX then relativeX = maxX
+							if relativeX < 0 then relativeX = 0 end
+							if relativeX > maxX then relativeX = maxX end
 
 							local maxY = numberLine.AbsoluteSize.Y - 1
 							local relativeY = (input.Position.Y - numberLine.AbsolutePosition.Y)
-							if relativeY < 0 then relativeY = 0
-							if relativeY > maxY then relativeY = maxY
+							if relativeY < 0 then relativeY = 0 end
+							if relativeY > maxY then relativeY = maxY end
 
 							local raw = relativeX / maxX
 							local newPoint = {10 - (relativeY / maxY) * 10, raw, 0}
@@ -13138,7 +13140,7 @@ end
 							table.insert(newPoints,ColorSequenceKeypoint.new(v[2],v[1]))
 						end
 						newMt.Sequence = ColorSequence.new(newPoints)
-						if not noupdate then newMt.OnSelect:Fire(newMt.Sequence)
+						if not noupdate then newMt.OnSelect:Fire(newMt.Sequence) end
 					end
 
 					local function round(num,places)
@@ -13186,8 +13188,8 @@ end
 									if input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch then
 										local maxSize = colorLine.AbsoluteSize.X - 1
 										local relativeX = (input.Position.X - colorLine.AbsolutePosition.X)
-										if relativeX < 0 then relativeX = 0
-										if relativeX > maxSize then relativeX = maxSize
+										if relativeX < 0 then relativeX = 0 end
+										if relativeX > maxSize then relativeX = maxSize end
 										local raw = relativeX / maxSize
 										point[2] = relativeX / maxSize
 										updateInputs(point)
@@ -13230,7 +13232,7 @@ end
 
 					local function loadSequence(self,seq)
 						resetSequence = seq
-						for i,v in pairs(colors) do if v[3] then v[3]:Destroy() end
+						for i,v in pairs(colors) do if v[3] then v[3]:Destroy() end end
 						colors = {}
 						currentlySelected = nil
 						for i,v in pairs(seq.Keypoints) do
@@ -13256,8 +13258,8 @@ end
 						if (input.UserInputType == Enum.UserInputType.MouseButton1 or input.UserInputType == Enum.UserInputType.Touch) and #colors < 20 then
 							local maxSize = colorLine.AbsoluteSize.X - 1
 							local relativeX = (input.Position.X - colorLine.AbsolutePosition.X)
-							if relativeX < 0 then relativeX = 0
-							if relativeX > maxSize then relativeX = maxSize
+							if relativeX < 0 then relativeX = 0 end
+							if relativeX > maxSize then relativeX = maxSize end
 
 							local raw = relativeX / maxSize
 							local fromColor = nil
@@ -13283,8 +13285,8 @@ end
 						if (input.UserInputType == Enum.UserInputType.MouseMovement or input.UserInputType == Enum.UserInputType.Touch) then
 							local maxSize = colorLine.AbsoluteSize.X - 1
 							local relativeX = (input.Position.X - colorLine.AbsolutePosition.X)
-							if relativeX < 0 then relativeX = 0
-							if relativeX > maxSize then relativeX = maxSize
+							if relativeX < 0 then relativeX = 0 end
+							if relativeX > maxSize then relativeX = maxSize end
 							cursor.Visible = true
 							cursor.Position = UDim2.new(0, 10 + relativeX, 0, 0)
 						end
@@ -13299,7 +13301,7 @@ end
 								end
 							end
 							cursor.Visible = inArrow and true or false
-							if inArrow then cursor.Position = UDim2.new(0, 9 + inArrow.Position.X.Offset, 0, 0)
+							if inArrow then cursor.Position = UDim2.new(0, 9 + inArrow.Position.X.Offset, 0, 0) end
 						end
 					end)
 
@@ -13397,8 +13399,8 @@ end
 				funcs.Update = function(self)
 					local cursorPos = self.CursorPos or -1
 					local text = self.TextBox.Text
-					if text == "" then self.TextBox.Position = UDim2.new(0,0,0,0) return
-					if cursorPos == -1 then return
+					if text == "" then self.TextBox.Position = UDim2.new(0,0,0,0) return end
+					if cursorPos == -1 then return end
 
 					local cursorText = text:sub(1,cursorPos-1)
 					local pos = nil
@@ -13457,7 +13459,7 @@ end
 					textbox.Changed:Connect(function(prop)
 						if prop == "Text" or prop == "CursorPosition" or prop == "AbsoluteSize" then
 							local cursorPos = obj.TextBox.CursorPosition
-							if cursorPos ~= -1 then obj.CursorPos = cursorPos
+							if cursorPos ~= -1 then obj.CursorPos = cursorPos end
 							obj:Update()
 						end
 					end)
@@ -13487,7 +13489,7 @@ end
 			end)()
 
 			Lib.Label = (function()
-				local props,funcs = {}, {}
+				local props,funcs = {},{}
 
 				local mt = getGuiMT(props,funcs)
 
@@ -13511,7 +13513,7 @@ end
 			end)()
 
 			Lib.Frame = (function()
-				local props,funcs = {}, {}
+				local props,funcs = {},{}
 
 				local mt = getGuiMT(props,funcs)
 
@@ -14807,7 +14809,7 @@ end
 						}
 						window:SetTitle("Save Instance - Saving")
 						local s, result = pcall(env.saveinstance, game, env.parsefile(finalName), options)
-						if s then window:SetTitle("Save Instance - Saved") else window:SetTitle("Save Instance - Failed") task.spawn(error, result) end
+						if s then window:SetTitle("Save Instance - Saved") else window:SetTitle("Save Instance - didnt work") task.spawn(error, result) end
 					end
 				else
 					-- this is dexre's serializer
@@ -14861,7 +14863,7 @@ end
 						}
 						window:SetTitle("Save Instance - Saving")
 						local s, result = pcall(env.saveinstance, workspace.Parent, env.parsefile(finalName), options)
-						if s then window:SetTitle("Save Instance - Success") else window:SetTitle("Save Instance - Failed") task.spawn(error, "DEXN Save Error: " .. tostring(result)) end
+						if s then window:SetTitle("Save Instance - Success") else window:SetTitle("Save Instance - didnt work") task.spawn(error, "Dex Save Error: " .. tostring(result)) end
 					end
 				end
 
@@ -15482,7 +15484,7 @@ end
 				AddSeperator("Save Instance")
 				local save = AddDropdown("Serializer Module", {"DexRESerializer", "UniversalSynSaveInstance"}, Settings.SaveInstance and Settings.SaveInstance.Method or "DexRESerializer", false, 150)
 				save.OnSelect:Connect(function() 
-					if not Settings.SaveInstance then Settings.SaveInstance = {}
+					if not Settings.SaveInstance then Settings.SaveInstance = {} end
 					Settings.SaveInstance.Method = save.Selected 
 					if Apps.SaveInstance and Apps.SaveInstance.BuildUI then
 						Apps.SaveInstance.BuildUI()
@@ -16199,7 +16201,7 @@ end)
 			    local Iter = 0
 				for k, v in pairs(SEnv) do
 				    Iter = Iter + 1
-				    if Iter % 10000 == 0 then task.wait()
+				    if Iter % 10000 == 0 then task.wait() end
 				    if ThisRefreshId ~= CurrentRefreshId then return end
 				    
 					if type(v) == "function" and not Seen[v] then
@@ -16903,7 +16905,7 @@ local func = findfunc("]] .. tostring(Target) .. [[")]]
 				local QueryHash = QueryStr
 				
 				for Iter, Obj in next, Gc do
-					if Iter % 900000 == 0 then task.wait()
+					if Iter % 900000 == 0 then task.wait() end
 					if ThisRefreshId ~= CurrentRefreshId then return end
 					
 					local ObjType = type(Obj)
@@ -17158,7 +17160,7 @@ local tbl = findtable()]]
 					if env.setupvalue then pcall(env.setupvalue, Result.Ref, tonumber(Match.Index), ParsedVal) end
 				elseif string.find(Match.LocationType, "Upvalue Table") or Match.LocationType == "Table Index" then
 					local Idx = Match.Index
-					if tonumber(Idx) then Idx = tonumber(Idx)
+					if tonumber(Idx) then Idx = tonumber(Idx) end
 					if env.getgc then
 						local Gc = env.getgc(true)
 						for _, V in next, Gc do
@@ -17983,7 +17985,7 @@ end))]], TargetPath, Name)
 								else
 									cDisp = tostring(cVal)
 									if cType == "string" then cDisp = '"'..cDisp..'"' end
-									if #cDisp > 50 then cDisp = string.sub(cDisp, 1, 50).."..."
+									if #cDisp > 50 then cDisp = string.sub(cDisp, 1, 50).."..." end
 								end
 								
 								local CNodeID = ConstID .. "_" .. tostring(cIdx)
@@ -18040,7 +18042,7 @@ end))]], TargetPath, Name)
 								else
 									uDisp = tostring(uVal)
 									if uType == "string" then uDisp = '"'..uDisp..'"' end
-									if #uDisp > 50 then uDisp = string.sub(uDisp, 1, 50).."..."
+									if #uDisp > 50 then uDisp = string.sub(uDisp, 1, 50).."..." end
 								end
 								
 								local UNodeID = UpvID .. "_" .. tostring(uIdx)
@@ -18346,7 +18348,7 @@ end)]], FuncHash, FuncStrCode)
 				local TypeColor = "rgb(200, 200, 200)"
 				if Type == "Function" then TypeColor = "rgb(132, 214, 247)"
 				elseif Type == "Event" then TypeColor = "rgb(255, 198, 0)"
-				elseif Type == "Property" then TypeColor = "rgb(173, 241, 149)"
+				elseif Type == "Property" then TypeColor = "rgb(173, 241, 149)" end
 				
 				local HookIdx, Hook = GetHookIndex(Target, Name)
 				local TagStr = ""
@@ -19071,7 +19073,7 @@ end)]], Hash)
 			elseif StrType == "boolean" then ValCode = string.lower(StrVal)
 			elseif StrType == "Color3" then ValCode = "Color3.new(" .. StrVal .. ")"
 			elseif StrType == "CFrame" then ValCode = "CFrame.new(" .. StrVal .. ")"
-			elseif StrType == "Vector3" then ValCode = "Vector3.new(" .. StrVal .. ")"
+			elseif StrType == "Vector3" then ValCode = "Vector3.new(" .. StrVal .. ")" end
 			
 			local Mem = DebugExplorer.SelectedMember
 			local TargetPath = Explorer.GetInstancePath(Mem.Target)
@@ -19431,7 +19433,7 @@ Main = (function()
 			else
 				if not Serializers.Dex then
 					local success, res = pcall(function()
-						return loadstring(oldgame:HttpGet("https://raw.githubusercontent.com/Tesker-103/DexRecontinued/refs/heads/main/Serializer.lua"))()
+						return loadstring(oldgame:HttpGet("https://raw.githubusercontent.com/8supdud/DEXN-TEST/refs/heads/main/Serializer.lua"))()
 					end)
 					if success and type(res) == "table" and res.Save then
 						pcall(res.Init)
@@ -19518,7 +19520,7 @@ end
 				for i=8,1,-1 do r = r .. (byte % 2^i - byte % 2^(i-1) > 0 and '1' or '0') end
 				return r
 			end)..'0000'):gsub('%d%d%d?%d?%d?%d?', function(x)
-				if #x < 6 then return ''
+				if #x < 6 then return '' end
 				local c = 0
 				for i=1,6 do c = c + (x:sub(i,i) == '1' and 2^(6-i) or 0) end
 				return b:sub(c+1,c+1)
@@ -19531,9 +19533,9 @@ end
 			local request = env.request
 			local function call(konstantType, scriptPath)
 				local success, bytecode = pcall(env.getscriptbytecode, scriptPath)
-				if (not success) then return "-- Failed to get script bytecode\n"
+				if (not success) then return "-- Failed to get script bytecode\n" end
 				local time_elapsed = os.clock() - konstant_last_call
-				if time_elapsed <= .5 then task.wait(.5 - time_elapsed)
+				if time_elapsed <= .5 then task.wait(.5 - time_elapsed) end
 				local httpResult = env.request({
 					Url = API .. konstantType, Body = bytecode, Method = "POST", Headers = {["Content-Type"] = "text/plain"}
 				})
@@ -19547,12 +19549,12 @@ end
 
 		local lua_expert_last = 0
 		local function LuaExpertDec(scr)
-			if not env.getscriptbytecode then return "-- exploit does not support getscriptbytecode."
+			if not env.getscriptbytecode then return "-- exploit does not support getscriptbytecode." end
 			local ok, bytecode = pcall(env.getscriptbytecode, scr)
-			if not ok then return "-- failed to read script bytecode\n--[[\n" .. tostring(bytecode) .. "\n--]]"
+			if not ok then return "-- failed to read script bytecode\n--[[\n" .. tostring(bytecode) .. "\n--]]" end
 
 			local elapsed = os.clock() - lua_expert_last
-			if elapsed < 0.12 then task.wait(0.12 - elapsed)
+			if elapsed < 0.12 then task.wait(0.12 - elapsed) end
 
 			local res = env.request({
 				Url = "https://api.lua.expert/decompile",
@@ -19569,10 +19571,10 @@ end
 		end
 
 		local function ShinyDec(script_instance)
-			if typeof(crypt) ~= "table" then return "-- 'crypt' library is missing!"
+			if typeof(crypt) ~= "table" then return "-- 'crypt' library is missing!" end
 			local port = Settings.Decompiler and Settings.Decompiler.ShinyDecompilerPort or 3000
 			local success, result = pcall(function() return game:HttpGet("http://127.0.0.1:"..tostring(port)) end)
-			if not success then return "-- Shiny decompiler is not active or port is wrong!"
+			if not success then return "-- Shiny decompiler is not active or port is wrong!" end
 			local bytecode = getscriptbytecode(script_instance)
 			local encoded = base64Encode(bytecode)
 			return env.request({
@@ -19581,7 +19583,7 @@ end
 		end
 
 		local function SabreDec(scr, mode)
-			if not env.getscriptbytecode then return "-- Sabre: getscriptbytecode is not supported"
+			if not env.getscriptbytecode then return "-- Sabre: getscriptbytecode is not supported" end
 			local ok, bytecode = pcall(env.getscriptbytecode, scr)
 			if not ok or not bytecode or bytecode == "" then
 				return "-- Sabre: Failed to get script bytecode"
@@ -19626,7 +19628,7 @@ end
 		end
 
 		local function X2125Dec(scr)
-			if not env.getscriptbytecode then return "-- x2125: getscriptbytecode is not supported"
+			if not env.getscriptbytecode then return "-- x2125: getscriptbytecode is not supported" end
 			local ok, bytecode = pcall(env.getscriptbytecode, scr)
 			if not ok or not bytecode or bytecode == "" then
 				return "-- x2125: Failed to get script bytecode"
@@ -19678,7 +19680,7 @@ end
 		end
 
 		local function BytefallDec(scr)
-			if not env.getscriptbytecode then return "-- ByteFall: getscriptbytecode is not supported"
+			if not env.getscriptbytecode then return "-- ByteFall: getscriptbytecode is not supported" end
 			local ok, bytecode = pcall(env.getscriptbytecode, scr)
 			if not ok or not bytecode or bytecode == "" then
 				return "-- ByteFall: getscriptbytecode returned empty or failed"
@@ -19827,7 +19829,7 @@ end
 	end
 
 	Main.LoadSettings = function()
-		local Success, Data = pcall(env.readfile or error, "DEXN/DEXNSettings.json")
+		local Success, Data = pcall(env.readfile or error, "DEX_REContinued/DexRESettings.json")
 		Main.ResetSettings()
 		
 		if Success and Data and Data ~= "" then
@@ -19857,7 +19859,7 @@ end
 
 	Main.SaveCurrentSettings = function()
 		if env.writefile then
-			env.writefile("DEXN/DEXNSettings.json", Main.ExportSettings())
+			env.writefile("DEX_REContinued/DexRESettings.json", Main.ExportSettings())
 		end
 	end
 
@@ -19923,7 +19925,7 @@ end
 		local api,rawAPI
 		if Main.Elevated then
 			if Main.LocalDepsUpToDate() then
-				local localAPI = Lib.ReadFile("DEXN/rbx_api.dat")
+				local localAPI = Lib.ReadFile("DEX_REContinued/rbx_api.dat")
 				if localAPI then 
 					rawAPI = localAPI
 				else
@@ -20093,7 +20095,7 @@ end
 		local rawXML
 		if Main.Elevated then
 			if Main.LocalDepsUpToDate() then
-				local localRMD = Lib.ReadFile("DEXN/rbx_rmd.dat")
+				local localRMD = Lib.ReadFile("DEX_REContinued/rbx_rmd.dat")
 				if localRMD then 
 					rawXML = localRMD
 				else
@@ -20222,13 +20224,13 @@ end
 			{2,"Frame",{Active=true,BackgroundColor3=Color3.new(0.20392157137394,0.20392157137394,0.20392157137394),BorderSizePixel=0,Name="Main",Parent={1},Position=UDim2.new(0.5,-175,0.5,-100),Size=UDim2.new(0,350,0,200),}},
 			{3,"Frame",{BackgroundColor3=Color3.new(0.17647059261799,0.17647059261799,0.17647059261799),BorderSizePixel=0,ClipsDescendants=true,Name="Holder",Parent={2},Size=UDim2.new(1,0,1,0),}},
 			{4,"UIGradient",{Parent={3},Rotation=30,Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,1,0),NumberSequenceKeypoint.new(1,1,0),}),}},
-			{5,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=4,Name="Title",Parent={3},Position=UDim2.new(0,-190,0,15),Size=UDim2.new(0,100,0,50),Text="DEXN",TextColor3=Color3.new(1,1,1),TextSize=50,TextTransparency=1,}},
+			{5,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=4,Name="Title",Parent={3},Position=UDim2.new(0,-190,0,15),Size=UDim2.new(0,100,0,50),Text="Dex RE",TextColor3=Color3.new(1,1,1),TextSize=50,TextTransparency=1,}},
 			{6,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="Desc",Parent={3},Position=UDim2.new(0,-230,0,60),Size=UDim2.new(0,180,0,25),Text="Ultimate Debugging Suite",TextColor3=Color3.new(1,1,1),TextSize=18,TextTransparency=1,}},
 			{7,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="StatusText",Parent={3},Position=UDim2.new(0,20,0,110),Size=UDim2.new(0,180,0,25),Text="Fetching API",TextColor3=Color3.new(1,1,1),TextSize=14,TextTransparency=1,}},
 			{8,"Frame",{BackgroundColor3=Color3.new(0.20392157137394,0.20392157137394,0.20392157137394),BorderSizePixel=0,Name="ProgressBar",Parent={3},Position=UDim2.new(0,110,0,145),Size=UDim2.new(0,0,0,4),}},
 			{9,"Frame",{BackgroundColor3=Color3.new(0.2392156869173,0.56078433990479,0.86274510622025),BorderSizePixel=0,Name="Bar",Parent={8},Size=UDim2.new(0,0,1,0),}},
 			{10,"ImageLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Image=(getcustomasset and isfile and isfile("DEX_REContinued/2.png")) and getcustomasset("DEX_REContinued/2.png") or "rbxassetid://2764171053",ImageColor3=Color3.new(0.17647059261799,0.17647059261799,0.17647059261799),Parent={8},ScaleType=1,Size=UDim2.new(1,0,1,0),SliceCenter=Rect.new(2,2,254,254),}},
-			{11,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="Creator",Parent={2},Position=UDim2.new(1,-110,1,-20),Size=UDim2.new(0,105,0,20),Text="Developed by NuclearBobo",TextColor3=Color3.new(1,1,1),TextSize=14,TextXAlignment=1,}},
+			{11,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="Creator",Parent={2},Position=UDim2.new(1,-110,1,-20),Size=UDim2.new(0,105,0,20),Text="Developed by Tesker103",TextColor3=Color3.new(1,1,1),TextSize=14,TextXAlignment=1,}},
 			{12,"UIGradient",{Parent={11},Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,1,0),NumberSequenceKeypoint.new(1,1,0),}),}},
 			{13,"TextLabel",{BackgroundColor3=Color3.new(1,1,1),BackgroundTransparency=1,Font=3,Name="Version",Parent={2},Position=UDim2.new(1,-110,1,-35),Size=UDim2.new(0,105,0,20),Text=Main.Version,TextColor3=Color3.new(1,1,1),TextSize=14,TextXAlignment=1,}},
 			{14,"UIGradient",{Parent={13},Transparency=NumberSequence.new({NumberSequenceKeypoint.new(0,1,0),NumberSequenceKeypoint.new(1,1,0),}),}},
@@ -20277,10 +20279,10 @@ end
 			local start = NumberSequenceKeypoint.new(0,0)
 			local a1 = NumberSequenceKeypoint.new(val,0)
 			local a2 = NumberSequenceKeypoint.new(math.min(0.5,val+math.min(0.05,val)),1)
-			if a1.Time == a2.Time then a2 = a1
+			if a1.Time == a2.Time then a2 = a1 end
 			local b1 = NumberSequenceKeypoint.new(1-val,0)
 			local b2 = NumberSequenceKeypoint.new(math.max(0.5,1-val-math.min(0.05,val)),1)
-			if b1.Time == b2.Time then b2 = b1
+			if b1.Time == b2.Time then b2 = b1 end
 			local goal = NumberSequenceKeypoint.new(1,0)
 			backGradient.Transparency = NumberSequence.new({start,a1,a2,b2,b1,goal})
 			outlinesGradient.Transparency = NumberSequence.new({start,a1,a2,b2,b1,goal})
@@ -20305,7 +20307,7 @@ end
 				val = val/100
 				local a1 = NumberSequenceKeypoint.new(1-val,0)
 				local a2 = NumberSequenceKeypoint.new(math.max(0,1-val-0.01),1)
-				if a1.Time == a2.Time then a2 = a1
+				if a1.Time == a2.Time then a2 = a1 end
 				local start = NumberSequenceKeypoint.new(0,a1 == a2 and 0 or 1)
 				local goal = NumberSequenceKeypoint.new(1,0)
 				obj.Transparency = NumberSequence.new({start,a2,a1,goal})
@@ -20343,7 +20345,7 @@ end
 				local start = NumberSequenceKeypoint.new(0,0)
 				local a1 = NumberSequenceKeypoint.new(0.6+val,0)
 				local a2 = NumberSequenceKeypoint.new(math.min(1,0.601+val),1)
-				if a1.Time == a2.Time then a2 = a1
+				if a1.Time == a2.Time then a2 = a1 end
 				local goal = NumberSequenceKeypoint.new(1,a1 == a2 and 0 or 1)
 				holderGradient.Transparency = NumberSequence.new({start,a1,a2,goal})
 			end)
@@ -20357,7 +20359,7 @@ end
 				local start = NumberSequenceKeypoint.new(0,1)
 				local a1 = NumberSequenceKeypoint.new(val,1)
 				local a2 = NumberSequenceKeypoint.new(math.min(1,val+math.min(0.05,val)),0)
-				if a1.Time == a2.Time then a2 = a1
+				if a1.Time == a2.Time then a2 = a1 end
 				local goal = NumberSequenceKeypoint.new(1,a1 == a2 and 1 or 0)
 				outlinesGradient.Transparency = NumberSequence.new({start,a1,a2,goal})
 				holderGradient.Transparency = NumberSequence.new({start,a1,a2,goal})
@@ -20457,7 +20459,7 @@ end
 	Main.SetMainGuiOpen = function(val)
 		Main.MainGuiOpen = val
 
-		Main.MainGui.OpenButton.Text = val and "X" or "DEXN"
+		Main.MainGui.OpenButton.Text = val and "X" or "DexRE"
 		if val then Main.MainGui.OpenButton.MainFrame.Visible = true end
 		Main.MainGui.OpenButton.MainFrame:TweenSize(val and UDim2.new(0,224,0,200) or UDim2.new(0,0,0,0),Enum.EasingDirection.Out,Enum.EasingStyle.Quad,0.2,true)
 		--Main.MainGui.OpenButton.BackgroundTransparency = val and 0 or (Lib.CheckMouseInGui(Main.MainGui.OpenButton) and 0 or 0.2)
@@ -20485,7 +20487,7 @@ end
 	Main.CreateMainGui = function()
 		local gui = create({
 			{1,"ScreenGui",{IgnoreGuiInset=true,Name="MainMenu",}},
-			{2,"TextButton",{AnchorPoint=Vector2.new(0.5,0),AutoButtonColor=false,BackgroundColor3=Color3.new(0.17647059261799,0.17647059261799,0.17647059261799),BorderSizePixel=0,Font=4,Name="OpenButton",Parent={1},Position=UDim2.new(0.5,0,0,2),Size=UDim2.new(0,44,0,32),Text="DEXN",TextColor3=Color3.new(1,1,1),TextSize=16,TextTransparency=0.20000000298023,}},
+			{2,"TextButton",{AnchorPoint=Vector2.new(0.5,0),AutoButtonColor=false,BackgroundColor3=Color3.new(0.17647059261799,0.17647059261799,0.17647059261799),BorderSizePixel=0,Font=4,Name="OpenButton",Parent={1},Position=UDim2.new(0.5,0,0,2),Size=UDim2.new(0,44,0,32),Text="DexRE",TextColor3=Color3.new(1,1,1),TextSize=16,TextTransparency=0.20000000298023,}},
 			{3,"UICorner",{CornerRadius=UDim.new(0,4),Parent={2},}},
 			{4,"Frame",{AnchorPoint=Vector2.new(0.5,0),BackgroundColor3=Color3.new(0.17647059261799,0.17647059261799,0.17647059261799),ClipsDescendants=true,Name="MainFrame",Parent={2},Position=UDim2.new(0.5,0,1,-4),Size=UDim2.new(0,224,0,200),}},
 			{5,"UICorner",{CornerRadius=UDim.new(0,4),Parent={4},}},
@@ -20564,7 +20566,7 @@ end
 			title.Position = UDim2.fromOffset(12, 10)
 			title.BackgroundTransparency = 1
 			title.Font = Enum.Font.BuilderSansExtraBold
-			title.Text = "DEXN"
+			title.Text = "DEX REContinued"
 			title.TextColor3 = Settings.Theme.Text
 			title.TextSize = 28
 			title.TextXAlignment = Enum.TextXAlignment.Left
@@ -20575,7 +20577,7 @@ end
 			desc.Position = UDim2.fromOffset(12, 45)
 			desc.BackgroundTransparency = 1
 			desc.Font = Enum.Font.SourceSans
-			desc.Text = "DEXN is a recontinuation of the old DEX Explorer with many features from the original roadmap\nThis DEX will try to the keep old stuff updated, and it should be less detected, and add new features\n\nJoin the server for help:"
+			desc.Text = "DEX REContinued is a recontinuation of the old DEX Explorer with many features from the original roadmap\nThis DEX will try to the keep old stuff updated, and it should be less detected, and add new features\n\nJoin the server for help:"
 			desc.TextColor3 = Settings.Theme.TextDim or Color3.fromRGB(200, 200, 200)
 			desc.TextSize = 13
 			desc.TextWrapped = true
@@ -20611,7 +20613,7 @@ end
 			a.Position = UDim2.fromOffset(12, 155)
 			a.BackgroundTransparency = 1
 			a.Font = Enum.Font.SourceSans
-			a.Text = "- Made by NuclearBobo"
+			a.Text = "- Made by Tesker103"
 			a.TextColor3 = Settings.Theme.TextFaded or Color3.fromRGB(150, 150, 150)
 			a.TextSize = 13
 			a.TextXAlignment = Enum.TextXAlignment.Left
@@ -20661,11 +20663,11 @@ end
 	Main.SetupFilesystem = function()
 		if not env.writefile or not env.makefolder then return end
 		local writefile, makefolder = env.writefile, env.makefolder
-		makefolder("DEXN")
-		makefolder("DEXN/assets")
-		makefolder("DEXN/saved")
-		makefolder("DEXN/plugins")
-		makefolder("DEXN/ModuleCache")
+		makefolder("DEX_REContinued")
+		makefolder("DEX_REContinued/assets")
+		makefolder("DEX_REContinued/saved")
+		makefolder("DEX_REContinued/plugins")
+		makefolder("DEX_REContinued/ModuleCache")
 	end
 
 	Main.LocalDepsUpToDate = function()
@@ -20678,7 +20680,7 @@ end
 		Main.InitEnv()
 		Main.SetupFilesystem()
 		
-		if env.isfile and not env.isfile("DEXN/DEXNSettings.json") then
+		if env.isfile and not env.isfile("DEX_REContinued/DexRESettings.json") then
 			Main.SaveCurrentSettings()
 		end
 		Main.LoadSettings()
@@ -20690,7 +20692,7 @@ end
 
 		-- Download images
 		if env.writefile and env.makefolder and env.isfile then
-			if not env.isfolder("DEXN") then env.makefolder("DEXN") end
+			if not env.isfolder("DEX_REContinued") then env.makefolder("DEX_REContinued") end
 			local assets = {
 				{Path = "DEX_REContinued/Images/Test_Icons.png", Url = "https://github.com/Tesker-103/DexRecontinued/raw/refs/heads/main/Assets/Images_Test_Icons.png"},
 				{Path = "DEX_REContinued/Images/search2.png", Url = "https://github.com/Tesker-103/DexRecontinued/raw/refs/heads/main/Assets/Images_search2.png"},
