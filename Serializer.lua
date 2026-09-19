@@ -2999,7 +2999,7 @@ local readMeStart = [[
 	Serializer.Init = function(oldInd)
 		oldIndex = oldInd
 
-		gethiddenprop = env.gethiddenprop or env.getnspval
+		gethiddenprop = env.gethiddenprop or env.getnspval or gethiddenproperty or gethiddenprop
 		getnspval = gethiddenprop
 		getbspval = env.getbspval
 		getnilinstances = env.getnilinstances
@@ -3165,9 +3165,9 @@ return {
 		env.getnspval = getnspval
 		env.getbspval = getbspval
 		env.getpcd = getpcd or getpcdprop
-		env.encodeBase64 = (syn and syn.crypt.base64.encode) or base64encode or (crypt and crypt.base64encode)
-		env.lz4compress = lz4compress or (syn and syn.crypt.lz4.compress)
-		env.hashmd5 = (syn and function(s) return syn.crypt.custom.hash("md5",s) end) or (crypt and function(s) return crypt.hash(s,"md5") end)
+		env.encodeBase64 = (syn and syn.crypt and syn.crypt.base64 and syn.crypt.base64.encode) or (crypt and crypt.base64 and crypt.base64.encode) or (crypt and crypt.base64encode) or base64encode or (Krnl and Krnl.Base64 and Krnl.Base64.Encode) or (fluxus and fluxus.base64encode)
+		env.lz4compress = lz4compress or (syn and syn.crypt and syn.crypt.lz4 and syn.crypt.lz4.compress)
+		env.hashmd5 = (syn and function(s) return syn.crypt.custom.hash("md5",s) end) or (crypt and crypt.hash and function(s) return crypt.hash(s,"md5") end) or hashmd5
 
 		local missing = {}
 		if type(env.writefile) ~= "function" then table.insert(missing, "writefile") end
